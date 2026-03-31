@@ -1,0 +1,2 @@
+./fdtd2d_memunder #./fdtd2d
+./fdtd2d_memover #./fdtd2d -e

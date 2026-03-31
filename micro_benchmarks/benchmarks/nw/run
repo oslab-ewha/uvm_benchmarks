@@ -1,0 +1,3 @@
+# ./needle 1024 10
+./needle_memunder -d 33520 -p 10  #./needle -d 33520 -p 10
+./needle_memover -d 33520 -p 10  #./needle -d 33520 -p 10 -e

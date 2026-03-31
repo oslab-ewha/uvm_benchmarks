@@ -1,0 +1,5 @@
+#!/bin/bash
+#./pathfinder 50000 200 10
+#./pathfinder 262144 8188 10    # 8189MiB
+./pathfinder_memunder 262144 8188 10  #./pathfinder -c 262144 -r 8188 -p 10
+./pathfinder_memover 262144 8188 10  #./pathfinder -c 262144 -r 8188 -p 10 -e

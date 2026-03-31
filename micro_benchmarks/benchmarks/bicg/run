@@ -1,0 +1,3 @@
+#!/bin/bash
+./bicg_memunder #./bicg
+./bicg_memover #./bicg -e

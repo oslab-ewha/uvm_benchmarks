@@ -1,0 +1,2 @@
+./2dconv_memunder #./2dconv
+./2dconv_memover #./2dconv -e

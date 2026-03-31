@@ -1,0 +1,3 @@
+# ./bfs ../../data/bfs/graph256k.txt
+./bfs_memunder -i ../../data/bfs/graph256K.txt  #./bfs -i ../../data/bfs/inputGen/graph256K.txt
+./bfs_memover -i ../../data/bfs/graph256K.txt  #./bfs -i ../../data/bfs/inputGen/graph256K.txt -e
