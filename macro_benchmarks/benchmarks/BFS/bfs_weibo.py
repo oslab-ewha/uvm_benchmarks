@@ -7,9 +7,10 @@ def main():
     parser = argparse.ArgumentParser(description="Run single-GPU BFS with UVM")
     parser.add_argument("--dataset", type=str, required=True, help="path to graph dataset")
     parser.add_argument("--loop", action="store_true", help="run continuously")
+    parser.add_argument('--gpu', type=int, default=0, help='GPU id to use')
     args = parser.parse_args()
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
 
     import rmm
     import cudf
@@ -21,8 +22,9 @@ def main():
         pool_allocator=False,
         initial_pool_size=pool_size_bytes
     )
-    print(f"GPU 0 allocation completed. UVM ON (pool={pool_size_bytes / (2**30):.0f}GB)")
+    print(f"GPU {args.gpu} allocation completed. UVM ON (pool={pool_size_bytes / (2**30):.0f}GB)")
 
+    
     print(f"Loading dataset... ({args.dataset})")
     e_list = cudf.read_csv(
         args.dataset,
