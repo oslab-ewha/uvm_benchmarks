@@ -14,18 +14,18 @@ def main():
 
     os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
 
+
     import rmm
     import cudf
     import cugraph
     import cupy as cp
 
-
     rmm.reinitialize(
         managed_memory=True,
-        pool_allocator=True
+        pool_allocator=False, # pool off
     )
     print(f"GPU {args.gpu} ready. UVM ON, pool_allocator=False")
-
+    
     # Allocate extra gpu memory (for memory oversubscription test)
     reserved_mem = None
     if args.reserve_gb > 0:
@@ -33,11 +33,10 @@ def main():
         reserved_mem = cp.cuda.Memory(reserve_bytes)
         print(f"Reserved GPU device memory: {args.reserve_gb:.2f} GB")
 
-    # load data
+    # Load data
     print(f"Loading dataset... ({args.dataset})")
     e_list = cudf.read_csv(
         args.dataset,
-        # delim_whitespace=True,
         delimiter=' ',
         names=["src", "dst"],
         dtype=["int32", "int32"],
@@ -49,7 +48,7 @@ def main():
 
     print(f"Edges loaded: {len(e_list)}")
 
-    G = cugraph.Graph()
+    G = cugraph.Graph() 
     G.from_cudf_edgelist(
         e_list,
         source="src",
@@ -57,18 +56,15 @@ def main():
         # renumber=True
     )
 
-
     if args.loop:
         while True:
-            t_start = time.time()
-            df = cugraph.weakly_connected_components(G)
-            print("Out:", time.time() - t_start)
+            t_start = time.time() 
+            df = cugraph.pagerank(G)
+            print("Out: ", time.time()-t_start)
     else:
         t_start = time.time()
-        df = cugraph.weakly_connected_components(G)
-        print("Out:", time.time() - t_start)
-        print(df.head())
-
+        df = cugraph.pagerank(G)
+        print("Out: ", time.time()-t_start)
 
 if __name__ == "__main__":
     main()
